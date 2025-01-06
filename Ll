@@ -1,0 +1,140 @@
+package lotem1;
+
+public class TOOOOO {
+
+	public static int FindMin(Node<Integer> L1){
+		Node<Integer> p = L1;
+		int min = p.getValue();
+		p = p.getNext();
+		while(p!=null) {
+			if(p.getValue()<min) {
+				min = p.getValue();
+			}
+			p=p.getNext();
+		}
+		return min;
+	}
+	public static Node<Integer> Delete(Node<Integer> L1, int num){
+		if (L1 == null)
+		{
+			return L1;
+		}
+		if (L1.getValue() == num) 
+	        return L1.getNext();
+		Node<Integer> p = L1;
+		boolean flag = false;
+		while(p != null && p.getNext() != null) {
+			if(p.getNext().getValue() == num && !flag) 
+			{
+				p.setNext(p.getNext().getNext());
+				flag = true;
+			}
+			p=p.getNext();
+		}
+		return L1;
+	}
+	public static Node<Integer>q3_sortByMin(Node<Integer> L1){
+		
+		Node<Integer> p = L1;
+		int min;
+		Node<Integer> newList = new Node<Integer>(null);
+		Node<Integer> ret = newList;
+		
+		while(p!=null) {
+			min = FindMin(p);
+			newList.setNext(new Node<Integer>(min));
+			newList = newList.getNext();
+			p = Delete(p, min);
+		}
+		
+		return ret.getNext();
+	}
+	public static int counter(Node<Integer> L1, int num)
+	{
+		int count = 0;
+		int index = 0;
+		int finalindex = -1;
+		Node<Integer> p = L1;
+		while(p != null)
+		{
+			if(p.getValue() == num)
+			{
+				finalindex = index;
+			}
+			p = p.getNext();
+			index++;
+		}
+		if(finalindex == -1)
+		{
+			return -1;
+		}
+		p = L1;
+		index = 0;
+		while(p != null)
+		{
+			if(p.getValue() != num && index < finalindex)
+			{
+				count++;
+			}
+			p = p.getNext();
+			index++;
+		}
+		return count;
+	}
+	public static boolean copy(Node<Integer> L1)
+	{
+		Node<Integer> p = L1;
+		while(p != null)
+		{
+			Node<Integer> p2 = p.getNext();
+			while(p2 != null)
+			{
+				if(p2.getValue().equals(p.getValue()))
+				{
+					return false;
+				}
+				p2 = p2.getNext();
+			}
+			p = p.getNext();
+		}
+		return true;
+	}
+	public static Node<Integer> deleteExtra(Node<Integer> L1)
+	{
+		Node<Integer> p = L1;
+		Node<Integer> p3 = L1;
+		while(p != null && p.getNext() != null)
+		{
+			Node<Integer> p2 = p.getNext();
+			while(p2 != null)
+			{
+				if(p2.getValue().equals(p.getValue()))
+				{
+					p3 = Delete(p, p.getValue());
+				}
+				p2 = p2.getNext();
+			}
+			p = p.getNext();
+		}
+		return p3;
+	}
+	public static void main(String[] args) {
+
+		Node<Integer> a1 = new Node<>(2);
+		Node<Integer> a2 = new Node<>(1);
+		Node<Integer> a3 = new Node<>(2);
+		Node<Integer> a4 = new Node<>(3);
+
+
+		a1.setNext(a2);
+		a2.setNext(a3);
+		a3.setNext(a4);
+
+		System.out.println(a1);
+		//System.out.println(FindMin(a1));
+		//System.out.println(q3_sortByMin(a1));
+		//System.out.println(counter(a1, 5));
+		//System.out.println(copy(a1));
+		System.out.println(deleteExtra(a1));
+	}
+}
